@@ -1,0 +1,46 @@
+{
+    "name": "hexlet/code",
+    "description": "Pages analisator",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NONstop",
+            "email": "non_2002@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "slim/slim": "^4.14"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.10",
+        "symfony/var-dumper": "^7.1",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^11.2"
+    },
+    "scripts": {
+        "test:coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit tests --color=always --coverage-clover build/logs/clover.xml"
+        ],
+        "test:coverage-text": [
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit tests --color=always --coverage-text"
+        ],
+        "test:coverage-html": [
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit tests --color=always --coverage-html build/coverage"
+        ]
+    }
+}
