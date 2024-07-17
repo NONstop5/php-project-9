@@ -1,6 +1,6 @@
 {
     "name": "hexlet/code",
-    "description": "Pages analisator",
+    "description": "Pages analysator",
     "type": "project",
     "license": "MIT",
     "autoload": {
@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "slim/slim": "^4.14"
     },
     "require-dev": {
