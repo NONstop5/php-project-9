@@ -20,19 +20,17 @@ lint-fix:
 phpstan:
 	vendor/bin/phpstan analyse
 
-test:
-	composer exec --verbose phpunit tests
+docker-up-d:
+	docker-compose up -d
 
-test:
-	composer exec --verbose phpunit tests
+compose-bash:
+	docker-compose run web bash
 
-test-coverage:
-	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --color=always --coverage-clover build/logs/clover.xml
+compose-setup: docker-build
+	docker-compose run web make setup
 
-test-coverage-text:
-	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --color=always --coverage-text
+docker-build:
+	docker-compose build
 
-test-coverage-html:
-	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --color=always --coverage-html build/coverage
-
-.PHONY: tests
+docker-down:
+	docker-compose down -v

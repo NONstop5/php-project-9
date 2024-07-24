@@ -26,6 +26,10 @@ $container->set('renderer', function () {
 //    echo $e->getMessage();
 //}
 
+//$container->set('db', function () {
+//    return Connection::get()->connect();
+//});
+
 $app = AppFactory::createFromContainer($container);
 
 $router = $app->getRouteCollector()->getRouteParser();
@@ -34,7 +38,7 @@ $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->add(MethodOverrideMiddleware::class);
 
-$app->get('/', function (Request $request, Response $response) {
+$app->get('/', function (Request $request, Response $response): Response {
     $viewData = [
         'name' => 'John',
     ];
@@ -42,7 +46,7 @@ $app->get('/', function (Request $request, Response $response) {
     return $this->get('renderer')->render($response, 'index.phtml', $viewData);
 })->setName('index');
 
-$app->get('/urls', function (Request $request, Response $response) {
+$app->get('/urls', function (Request $request, Response $response): Response {
     $viewData = [
         'name' => 'John',
     ];
@@ -50,7 +54,7 @@ $app->get('/urls', function (Request $request, Response $response) {
     return $this->get('renderer')->render($response, 'sites.phtml', $viewData);
 })->setName('urls');
 
-$app->get('/urls/{id}', function (Request $request, Response $response, array $args) {
+$app->get('/urls/{id}', function (Request $request, Response $response, array $args): Response {
     return $this->get('renderer')->render($response, 'sites.phtml', $args);
 })->setName('url_item');
 
