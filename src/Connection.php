@@ -21,7 +21,7 @@ final class Connection
     public function connect(): PDO
     {
         $params = parse_ini_file(__DIR__ . '/../database.ini');
-        //$databaseUrl = parse_url('postgresql://root:lTjbzO7oi6YRxn9IMDan9hB0mzRLSaqj@dpg-cqc2gf2j1k6c73fs42v0-a.frankfurt-postgres.render.com/project9_i5ng');
+        //$databaseUrl = parse_url('postgresql://root:9xACsxSiWNVPzqfhCBQFOTZRaJS97MLZ@dpg-cr1j18dds78s739t0r20-a.frankfurt-postgres.render.com/project9_kmgu');
 
         if ($params === false) {
             throw new RuntimeException("Error reading database configuration file");
@@ -54,6 +54,5 @@ final class Connection
 
     protected function __construct()
     {
-
     }
 }
