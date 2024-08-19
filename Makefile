@@ -12,10 +12,10 @@ dump:
 	composer dump-autoload -o
 
 lint:
-	composer exec -v phpcs src tests
+	composer exec -v phpcs public src
 
 lint-fix:
-	composer exec -v phpcbf -- --standard=PSR12 --colors src tests
+	composer exec -v phpcbf -- --standard=PSR12 --colors public src
 
 phpstan:
 	vendor/bin/phpstan analyse
