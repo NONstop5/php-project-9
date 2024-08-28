@@ -19,16 +19,16 @@ $container->set('renderer', function () {
     return new PhpRenderer(__DIR__ . '/../templates/php-view');
 });
 
-//try {
-//    Connection::get()->connect();
-//    echo 'A connection to the PostgreSQL database sever has been established successfully.';
-//} catch (PDOException $e) {
-//    echo $e->getMessage();
-//}
+try {
+    Connection::get()->connect();
+    echo 'A connection to the PostgreSQL database sever has been established successfully.';
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
-//$container->set('db', function () {
-//    return Connection::get()->connect();
-//});
+$container->set('db', function () {
+    return Connection::get()->connect();
+});
 
 $app = AppFactory::createFromContainer($container);
 
