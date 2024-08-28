@@ -1,5 +1,19 @@
 parameters:
     level: 8
     paths:
+        - public
         - src
-        - tests
+    fileExtensions:
+        - php
+
+    excludePaths:
+        - */vendor/*
+
+    reportUnmatchedIgnoredErrors: false
+    reportMaybesInPropertyPhpDocTypes: false
+    checkMissingIterableValueType: false
+
+#    ignoreErrors:
+#        - '#Undefined variable: \$this#'
+#        - '#Call to an undefined method Illuminate\\Support\\Optional::text\(\)#'
+
