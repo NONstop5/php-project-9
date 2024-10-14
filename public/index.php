@@ -11,13 +11,7 @@ use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\PhpRenderer;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$envParams = $dotenv->load();
-$dotenv->required(
-    [
-        'DATABASE_URL',
-        'DATABASE_MIGRATION_FILE',
-    ]
-)->notEmpty();
+$envParams = $dotenv->safeLoad();
 
 session_start();
 
