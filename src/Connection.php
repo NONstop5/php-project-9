@@ -6,53 +6,36 @@ namespace App;
 
 use Exception;
 use PDO;
-use RuntimeException;
 
-/**
- * Создание класса Connection
- */
 final class Connection
 {
-    private static ?Connection $conn = null;
+    private const DATABASE_DEFAULT_PORT = 5432;
 
     /**
      * @throws Exception
      */
-    public function connect(): PDO
+    public static function create(string $databaseUrl): PDO
     {
-        $params = parse_ini_file(__DIR__ . '/../database.ini');
-        //$databaseUrl = parse_url('postgresql://root:9xACsxSiWNVPzqfhCBQFOTZRaJS97MLZ@dpg-cr1j18dds78s739t0r20-a.frankfurt-postgres.render.com/project9_kmgu');
+        $databaseParams = parse_url($databaseUrl);
 
-        if ($params === false) {
-            throw new RuntimeException("Error reading database configuration file");
-        }
+        $host = $databaseParams['host'] ?? '';
+        $port = $databaseParams['port'] ?? self::DATABASE_DEFAULT_PORT;
+        $user = $databaseParams['user'] ?? '';
+        $password = $databaseParams['pass'] ?? '';
+        $dbName = ltrim($databaseParams['path'] ?? '', '/');
 
-        $conStr = sprintf(
+        $dsn = sprintf(
             "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
-            $params['host'],
-            $params['port'],
-            $params['database'],
-            $params['user'],
-            $params['password']
+            $host,
+            $port,
+            $dbName,
+            $user,
+            $password
         );
 
-        $pdo = new PDO($conStr);
-        dd($pdo);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        return $pdo;
-    }
-
-    public static function get()
-    {
-        if (null === static::$conn) {
-            static::$conn = new self();
-        }
-
-        return static::$conn;
-    }
-
-    protected function __construct()
-    {
+        return new PDO($dsn, $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
     }
 }
