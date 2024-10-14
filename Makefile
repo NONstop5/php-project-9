@@ -1,4 +1,4 @@
-install:
+setup:
 	composer install
 
 PORT ?= 8000
@@ -8,29 +8,18 @@ start:
 validate:
 	composer validate
 
-dump:
-	composer dump-autoload -o
-
 lint:
 	composer exec -v phpcs public src
+	vendor/bin/phpstan analyse
 
 lint-fix:
 	composer exec -v phpcbf -- --standard=PSR12 --colors public src
 
-phpstan:
-	vendor/bin/phpstan analyse
-
 docker-up-d:
-	docker-compose up -d
-
-compose-bash:
-	docker-compose run web bash
-
-compose-setup: docker-build
-	docker-compose run web make setup
-
-docker-build:
-	docker-compose build
+	docker-compose --env-file ./docker/.env up -d
 
 docker-down:
-	docker-compose down -v
+	docker-compose --env-file ./docker/.env down -v
+
+docker-build:
+	docker-compose --env-file ./docker/.env build
