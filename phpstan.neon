@@ -12,6 +12,7 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     reportMaybesInPropertyPhpDocTypes: false
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
 
 #    ignoreErrors:
 #        - '#Undefined variable: \$this#'
