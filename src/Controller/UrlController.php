@@ -39,5 +39,4 @@ class UrlController extends BaseController
 
         return $this->view->render($response, 'urls.phtml', $data);
     }
-
 }
