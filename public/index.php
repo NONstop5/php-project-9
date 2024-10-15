@@ -11,7 +11,11 @@ use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\PhpRenderer;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$envParams = $dotenv->safeLoad();
+$dotenv->safeLoad();
+
+if (!isset($_ENV['DATABASE_URL'])) {
+    throw new Exception('Database connection error!');
+}
 
 session_start();
 
