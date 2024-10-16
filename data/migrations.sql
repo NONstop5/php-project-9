@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS urls
 (
     id         BIGSERIAL PRIMARY KEY,
-    name       VARCHAR(255) NOT NULL,
+    name       VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP(0) NOT NULL
 );
 
