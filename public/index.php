@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Connection;
+use App\Migrations;
 use App\Routes;
 use DI\Container;
 use Dotenv\Dotenv;
@@ -14,20 +15,18 @@ $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->safeLoad();
 
 if (!isset($_ENV['DATABASE_URL'])) {
-    throw new Exception('Database connection error!');
+    throw new Exception('Missing ENV variable "DATABASE_URL"!');
 }
+
+$conn = Connection::create($_ENV['DATABASE_URL']);
+(new Migrations())->run($conn);
 
 session_start();
 
 $container = new Container();
 
-$container->set('db', function () {
-    return Connection::create($_ENV['DATABASE_URL']);
-});
-
-$container->set('view', function () {
-    return new PhpRenderer(__DIR__ . '/../templates/php-view');
-});
+$container->set('db', fn () => $conn);
+$container->set('view', fn () => new PhpRenderer(__DIR__ . '/../templates/php-view'));
 
 $app = AppFactory::createFromContainer($container);
 
