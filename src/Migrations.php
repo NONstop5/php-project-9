@@ -23,5 +23,4 @@ class Migrations
 
         $conn->exec($sql);
     }
-
 }
