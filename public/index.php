@@ -8,6 +8,7 @@ use App\Routes;
 use DI\Container;
 use Dotenv\Dotenv;
 use Slim\Factory\AppFactory;
+use Slim\Flash\Messages;
 use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\PhpRenderer;
 
@@ -27,6 +28,7 @@ $container = new Container();
 
 $container->set('db', fn () => $conn);
 $container->set('view', fn () => new PhpRenderer(__DIR__ . '/../templates/php-view'));
+$container->set('flash', fn () => new Messages());
 
 $app = AppFactory::createFromContainer($container);
 
