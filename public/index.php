@@ -4,8 +4,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Connection;
 use App\Migrations;
-use App\Repository\UrlCheckRepository;
-use App\Repository\UrlRepository;
 use App\Routes;
 use DI\Container;
 use Dotenv\Dotenv;
@@ -28,11 +26,9 @@ session_start();
 
 $container = new Container();
 
-$container->set('db', fn () => $conn);
+$container->set(PDO::class, fn () => $conn);
 $container->set('view', fn () => new PhpRenderer(__DIR__ . '/../templates/php-view'));
 $container->set('flash', fn () => new Messages());
-$container->set('UrlRepository', fn () => new UrlRepository($conn));
-$container->set('UrlCheckRepository', fn () => new UrlCheckRepository($conn));
 
 $app = AppFactory::createFromContainer($container);
 

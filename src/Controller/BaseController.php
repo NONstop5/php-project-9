@@ -29,10 +29,10 @@ class BaseController
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->db = $container->get('db');
+        $this->db = $container->get(PDO::class);
         $this->view = $container->get('view');
         $this->flash = $container->get('flash');
-        $this->urlRepository = $container->get('UrlRepository');
-        $this->urlCheckRepository = $container->get('UrlCheckRepository');
+        $this->urlRepository = $container->get(UrlRepository::class);
+        $this->urlCheckRepository = $container->get(UrlCheckRepository::class);
     }
 }
