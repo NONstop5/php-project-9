@@ -14,7 +14,7 @@ class Migrations
      */
     public function run(PDO $conn): void
     {
-        $migrationsFilePath = dirname(__DIR__) . '/data/database.sql';
+        $migrationsFilePath = dirname(__DIR__) . '/database.sql';
         $sql = file_get_contents($migrationsFilePath);
 
         if ($sql === false) {
