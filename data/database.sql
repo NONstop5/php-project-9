@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS urls
 (
     id         BIGSERIAL PRIMARY KEY,
     name       VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMP(0) NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS url_checks
@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS url_checks
     h1          VARCHAR(255) NULL,
     title       TEXT         NULL,
     description TEXT         NULL,
-    created_at  TIMESTAMP(0) NOT NULL,
+    created_at  TIMESTAMP NOT NULL DEFAULT current_timestamp,
     FOREIGN KEY (url_id) REFERENCES urls (Id) ON DELETE CASCADE
 );
