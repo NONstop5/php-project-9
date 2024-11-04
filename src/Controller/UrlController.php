@@ -18,11 +18,26 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $data = [
-            'name' => 'John',
-        ];
+        $urls = $this->urlRepository->getList();
 
-        return $this->view->render($response, 'urls.phtml', $data);
+        return $this->view->render($response, 'urls.phtml', compact('urls'));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function createAction(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args
+    ): ResponseInterface {
+        $url = $request->getParsedBody()['url']['name'];
+
+        $this->urlRepository->insert($url);
+
+        return $response
+            ->withHeader('Location', '/urls')
+            ->withStatus(302);
     }
 
     /**
