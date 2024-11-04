@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\UrlCheckRepository;
+use App\Repository\UrlRepository;
 use PDO;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -17,6 +19,8 @@ class BaseController
     protected PDO $db;
     protected PhpRenderer $view;
     protected Messages $flash;
+    protected UrlRepository $urlRepository;
+    protected UrlCheckRepository $urlCheckRepository;
 
     /**
      * @throws ContainerExceptionInterface
@@ -28,5 +32,7 @@ class BaseController
         $this->db = $container->get('db');
         $this->view = $container->get('view');
         $this->flash = $container->get('flash');
+        $this->urlRepository = $container->get('UrlRepository');
+        $this->urlCheckRepository = $container->get('UrlCheckRepository');
     }
 }
