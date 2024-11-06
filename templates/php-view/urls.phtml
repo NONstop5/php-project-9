@@ -17,9 +17,9 @@
                 <?php foreach ($urls as $url): ?>
                 <tr>
                     <td><?=$url['id']?></td>
-                    <td><a href="/url/<?=$url['id']?>"><?=$url['name']?></a></td>
-                    <td></td>
-                    <td></td>
+                    <td><a href="/urls/<?=$url['id']?>"><?=$url['url']?></a></td>
+                    <td><?=$url['url_check_date']?></td>
+                    <td><?=$url['url_check_status_code']?></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
