@@ -18,7 +18,7 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $urls = $this->urlRepository->getList();
+        $urls = $this->urlRepository->getUrlsCheckInfoList();
 
         return $this->view->render($response, 'urls.phtml', compact('urls'));
     }
@@ -48,10 +48,16 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
+        $urlId = (int)$request->getAttribute('id');
+
+        $urlData = $this->urlRepository->getUrlById($urlId);
+        $urlCheckData = $this->urlCheckRepository->getUrlChecks($urlId);
+
         $data = [
-            'name' => 'John',
+            'urlData' => $urlData,
+            'urlCheckData' => $urlCheckData,
         ];
 
-        return $this->view->render($response, 'urls.phtml', $data);
+        return $this->view->render($response, 'url.phtml', compact('data'));
     }
 }
