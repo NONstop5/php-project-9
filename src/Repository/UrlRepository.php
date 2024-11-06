@@ -15,9 +15,35 @@ class UrlRepository
         $this->pdo = $pdo;
     }
 
-    public function getList(): array
+    public function getUrlById(int $id): array
     {
-        $sql = "SELECT * FROM urls";
+        $sql = "
+            select
+                id,
+                name,
+                to_char(created_at, 'YYYY-MM-DD HH24:MI:SS TZ') as created_at
+            from urls
+            where id = :id
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(compact('id'));
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUrlsCheckInfoList(): array
+    {
+        $sql = "
+            select
+                u.id,
+                u.name as url,
+                uc.created_at as url_check_date,
+                uc.status_code as url_check_status_code
+            from urls u
+            left join url_checks uc on u.id = uc.url_id
+            order by u.id desc
+        ";
 
         $stmt = $this->pdo->query($sql);
 
