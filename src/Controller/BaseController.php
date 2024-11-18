@@ -7,9 +7,7 @@ namespace App\Controller;
 use App\Repository\UrlCheckRepository;
 use App\Repository\UrlRepository;
 use PDO;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Slim\Flash\Messages;
 use Slim\Views\PhpRenderer;
 
@@ -22,17 +20,19 @@ class BaseController
     protected UrlRepository $urlRepository;
     protected UrlCheckRepository $urlCheckRepository;
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        PDO $db,
+        PhpRenderer $view,
+        Messages $flash,
+        UrlRepository $urlRepository,
+        UrlCheckRepository $urlCheckRepository
+    ) {
         $this->container = $container;
-        $this->db = $container->get(PDO::class);
-        $this->view = $container->get('view');
-        $this->flash = $container->get('flash');
-        $this->urlRepository = $container->get(UrlRepository::class);
-        $this->urlCheckRepository = $container->get(UrlCheckRepository::class);
+        $this->db = $db;
+        $this->view = $view;
+        $this->flash = $flash;
+        $this->urlRepository = $urlRepository;
+        $this->urlCheckRepository = $urlCheckRepository;
     }
 }
