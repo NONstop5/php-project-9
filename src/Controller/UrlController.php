@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use http\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
@@ -31,6 +32,7 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
+        /** @var array $params */
         $params = $request->getParsedBody();
 
         $urlName = $params['url']['name'];

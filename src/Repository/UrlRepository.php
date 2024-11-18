@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use InvalidArgumentException;
 use PDO;
 
 class UrlRepository
@@ -67,6 +68,10 @@ class UrlRepository
         ";
 
         $stmt = $this->pdo->query($sql);
+
+        if ($stmt === false) {
+            throw new InvalidArgumentException();
+        }
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
