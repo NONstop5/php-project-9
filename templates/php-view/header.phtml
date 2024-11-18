@@ -31,3 +31,10 @@
         </div>
     </nav>
 </header>
+
+<? foreach ($this->getAttribute('flashMessages')->getMessages() as $flashMessageType => $flashMessageText): ?>
+<div class="alert alert-<?= $flashMessageType ?> alert-dismissible fade show" role="alert">
+    <?= $this->getAttribute('flashMessages')->getFirstMessage($flashMessageType) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<? endforeach; ?>
