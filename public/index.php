@@ -23,13 +23,17 @@ if (!isset($_ENV['DATABASE_URL'])) {
 $conn = Connection::create($_ENV['DATABASE_URL']);
 (new Migrations())->run($conn);
 
+// Старт PHP сессии
 session_start();
 
 $container = new Container();
 
 $container->set(PDO::class, fn() => $conn);
-$container->set(PhpRenderer::class, fn() => new PhpRenderer(__DIR__ . '/../templates/php-view'));
 $container->set(Messages::class, fn() => new Messages());
+$container->set(PhpRenderer::class, fn() => new PhpRenderer(
+    __DIR__ . '/../templates/php-view',
+    ['flashMessages' => $container->get(Messages::class)])
+);
 
 $app = AppFactory::createFromContainer($container);
 
