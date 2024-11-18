@@ -32,8 +32,8 @@ $container->set(PDO::class, fn() => $conn);
 $container->set(Messages::class, fn() => new Messages());
 $container->set(PhpRenderer::class, fn() => new PhpRenderer(
     __DIR__ . '/../templates/php-view',
-    ['flashMessages' => $container->get(Messages::class)])
-);
+    ['flashMessages' => $container->get(Messages::class)]
+));
 
 $app = AppFactory::createFromContainer($container);
 
