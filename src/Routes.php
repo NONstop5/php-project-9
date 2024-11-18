@@ -20,7 +20,7 @@ class Routes
 
             $group->post('', [UrlController::class, 'createAction'])->setName('urls');
 
-            $group->get('/{id}', [UrlController::class, 'getUrlAction'])->setName('get_url');
+            $group->get('/{id:[0-9]+}', [UrlController::class, 'getUrlAction'])->setName('get_url');
         });
     }
 }
