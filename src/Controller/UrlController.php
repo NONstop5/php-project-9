@@ -31,9 +31,23 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $url = $request->getParsedBody()['url']['name'];
+        $params = $request->getParsedBody();
 
-        $this->urlRepository->insert($url);
+        $urlName = $params['url']['name'];
+
+        $urlData = $this->urlRepository->getUrlByName($urlName);
+
+        if (count($urlData) > 0) {
+            $this->flash->addMessage('success', 'Страница уже существует');
+
+            return $response
+                ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
+                ->withStatus(302);
+        }
+
+        $this->urlRepository->insert($urlName);
+
+        $this->flash->addMessage('success', 'Страница успешно добавлена');
 
         return $response
             ->withHeader('Location', '/urls')
