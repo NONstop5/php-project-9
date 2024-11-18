@@ -32,6 +32,27 @@ class UrlRepository
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUrlByName(string $name): array
+    {
+        $sql = "
+            select
+                id,
+                name,
+                to_char(created_at, 'YYYY-MM-DD HH24:MI:SS TZ') as created_at
+            from urls
+            where name = :name
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(compact('name'));
+
+        if ($stmt->rowCount() === 0) {
+            return [];
+        }
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getUrlsCheckInfoList(): array
     {
         $sql = "
