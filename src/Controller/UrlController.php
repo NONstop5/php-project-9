@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use http\Exception\InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
+use Valitron\Validator;
 
 class UrlController extends BaseController
 {
@@ -35,7 +36,18 @@ class UrlController extends BaseController
         /** @var array $params */
         $params = $request->getParsedBody();
 
-        $urlName = $params['url']['name'];
+        $urlName = htmlspecialchars($params['url']['name']);
+
+        $validator = new Validator(['url' => $urlName]);
+        $validator->rule('required', 'url')->message('URL не должен быть пустым');
+        $validator->rule('url', 'url')->message('Некорректный URL');
+
+        if (!$validator->validate()) {
+            $errors = $validator->errors('url');
+            $error = is_array($errors) ? Arr::first($errors) : null;
+
+            return $this->view->render($response, 'index.phtml', compact('error'));
+        }
 
         $urlData = $this->urlRepository->getUrlByName($urlName);
 
