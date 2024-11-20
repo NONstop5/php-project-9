@@ -1,4 +1,4 @@
-<?= $this->fetch('header.phtml', $data) ?>
+<?= $this->fetch('header.phtml') ?>
 
 <main class="flex-grow-1">
     <div class="container-lg mt-3">
@@ -14,9 +14,14 @@
                             type="text"
                             name="url[name]"
                             value=""
-                            class="form-control form-control-lg"
+                            class="form-control form-control-lg<?= isset($error) ? ' is-invalid' : '' ?>"
                             placeholder="https://www.example.com"
                         >
+                        <?php if (isset($error)): ?>
+                        <div class="invalid-feedback">
+                            <?= $error ?>
+                        </div>
+                        <?php endif; ?>
                     </div>
                     <div class="col-2">
                         <input type="submit" class="btn btn-primary btn-lg ms-3 px-5 text-uppercase mx-3" value="Проверить">
