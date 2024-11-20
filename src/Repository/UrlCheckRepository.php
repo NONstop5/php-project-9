@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Carbon\Carbon;
 use PDO;
 
 class UrlCheckRepository
@@ -23,12 +24,32 @@ class UrlCheckRepository
             from urls u
             left join url_checks uc on u.id = uc.url_id
             where u.id = :id
-            order by u.id desc
+            order by uc.id desc
         ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(compact('id'));
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create(int $urlId, array $urlCheckData): void
+    {
+        $sql = "
+            INSERT INTO url_checks
+            (url_id, created_at)
+            VALUES
+            (:urlId, :createdAt)
+        ";
+
+        $this->pdo
+            ->prepare($sql)
+            ->execute(
+                [
+                    'urlId' => $urlId,
+                    'createdAt' => Carbon::now()->toDateTimeString(),
+                ]
+            );
+        ;
     }
 }
