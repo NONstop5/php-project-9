@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Carbon\Carbon;
 use InvalidArgumentException;
 use PDO;
 
@@ -39,7 +40,7 @@ class UrlRepository
             select
                 id,
                 name,
-                to_char(created_at, 'YYYY-MM-DD HH24:MI:SS TZ') as created_at
+                created_at
             from urls
             where name = :name
         ";
@@ -60,10 +61,16 @@ class UrlRepository
             select
                 u.id,
                 u.name as url,
-                uc.created_at as url_check_date,
-                uc.status_code as url_check_status_code
+                last_check.created_at as url_check_date,
+                last_check.status_code as url_check_status_code
             from urls u
-            left join url_checks uc on u.id = uc.url_id
+            left join lateral (
+                select url_id, created_at, status_code
+                from url_checks
+                where url_id = u.id
+                order by id desc
+                limit 1
+            ) as last_check on u.id = last_check.url_id
             order by u.id desc
         ";
 
@@ -78,11 +85,19 @@ class UrlRepository
 
     public function insert(string $name): void
     {
-        $sql = "INSERT INTO urls (name) VALUES (:name)";
+        $sql = "
+            INSERT INTO urls
+                (name, creted_at)
+            VALUES
+                (:name, :createdAt)
+        ";
 
         $this->pdo
             ->prepare($sql)
-            ->execute(compact('name'))
+            ->execute([
+                'name' => $name,
+                'createdAt' => Carbon::now()->toDateTimeString(),
+            ])
         ;
     }
 }
