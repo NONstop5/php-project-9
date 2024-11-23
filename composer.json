@@ -26,7 +26,8 @@
         "vlucas/valitron": "^1.4",
         "nesbot/carbon": "^3.8",
         "slim/flash": "^0.4.0",
-        "illuminate/support": "^11.29"
+        "illuminate/support": "^11.29",
+        "guzzlehttp/guzzle": "^7.9"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.10",
