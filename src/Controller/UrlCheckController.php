@@ -21,7 +21,7 @@ class UrlCheckController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $urlId = (int)$request->getAttribute('id');
+        $urlId = (int)$args['id'];
 
         $urlData = $this->urlRepository->getUrlById($urlId);
         $this->urlCheckRepository->create($urlData['id'], ['createdAt' => Carbon::now()]);
