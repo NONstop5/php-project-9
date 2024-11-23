@@ -14,11 +14,8 @@ use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\PhpRenderer;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->safeLoad();
-
-if (!isset($_ENV['DATABASE_URL'])) {
-    throw new Exception('Missing ENV variable "DATABASE_URL"!');
-}
+$dotenv->load();
+$dotenv->required(['APP_ENV', 'DATABASE_URL'])->notEmpty();
 
 $conn = Connection::create($_ENV['DATABASE_URL']);
 (new Migrations())->run($conn);
@@ -52,7 +49,10 @@ $app->addRoutingMiddleware();
 
 // Добавляем промежуточное ПО обработки ошибок
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
-$errorMiddleware->setDefaultErrorHandler($httpErrorHandler);
+
+if ($_ENV['APP_ENV'] === 'prod') {
+    $errorMiddleware->setDefaultErrorHandler($httpErrorHandler);
+}
 
 $app->add(MethodOverrideMiddleware::class);
 
