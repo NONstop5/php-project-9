@@ -24,7 +24,7 @@ class UrlCheckController extends BaseController
         $urlId = (int)$args['id'];
 
         $urlData = $this->urlRepository->getUrlById($urlId);
-        $this->urlCheckRepository->create($urlData['id'], ['createdAt' => Carbon::now()]);
+        $this->urlCheckRepository->create($urlData['id'], []);
 
         return $response
             ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
