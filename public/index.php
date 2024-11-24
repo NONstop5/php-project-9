@@ -8,6 +8,7 @@ use App\Migrations;
 use App\Routes;
 use DI\Container;
 use Dotenv\Dotenv;
+use GuzzleHttp\Client;
 use Slim\Factory\AppFactory;
 use Slim\Flash\Messages;
 use Slim\Middleware\MethodOverrideMiddleware;
@@ -31,6 +32,7 @@ $container->set(PhpRenderer::class, fn() => new PhpRenderer(
     __DIR__ . '/../templates/php-view',
     ['flashMessages' => $container->get(Messages::class)]
 ));
+$container->set(Client::class, fn() => new Client(['timeout' => 2.0]));
 
 $app = AppFactory::createFromContainer($container);
 
