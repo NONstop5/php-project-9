@@ -5,16 +5,27 @@ declare(strict_types=1);
 namespace App\Service;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class HttpClient
 {
-    public static function create(string $url): Client
+    private Client $client;
+
+    public function __construct(Client $client)
     {
-        return new Client([
-            // Base URI is used with relative requests
-            'base_uri' => $url,
-            // You can set any number of default request options.
-            'timeout' => 2.0,
-        ]);
+        $this->client = $client;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function sendGetRequest(string $uri = '', array $options = []): array
+    {
+        $response = $this->client->get($uri, $options);
+
+        return [
+            'statusCode' => $response->getStatusCode(),
+            'content' => $response->getBody()->getContents(),
+        ];
     }
 }
