@@ -83,11 +83,11 @@ class UrlRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insert(string $name): void
+    public function create(string $name): void
     {
         $sql = "
             INSERT INTO urls
-                (name, creted_at)
+                (name, created_at)
             VALUES
                 (:name, :createdAt)
         ";
