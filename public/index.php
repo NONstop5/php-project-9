@@ -14,7 +14,7 @@ use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\PhpRenderer;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+$dotenv->safeLoad();
 $dotenv->required(['APP_ENV', 'DATABASE_URL'])->notEmpty();
 
 $conn = Connection::create($_ENV['DATABASE_URL']);
