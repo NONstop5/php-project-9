@@ -37,9 +37,9 @@ class UrlCheckRepository
     {
         $sql = "
             INSERT INTO url_checks
-            (url_id, created_at)
+            (url_id, status_code, created_at)
             VALUES
-            (:urlId, :createdAt)
+            (:urlId, :statusCode, :createdAt)
         ";
 
         $this->pdo
@@ -47,6 +47,7 @@ class UrlCheckRepository
             ->execute(
                 [
                     'urlId' => $urlId,
+                    'statusCode' => $urlCheckData['statusCode'],
                     'createdAt' => Carbon::now()->toDateTimeString(),
                 ]
             );
