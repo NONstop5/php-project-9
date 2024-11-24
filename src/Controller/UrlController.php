@@ -59,7 +59,7 @@ class UrlController extends BaseController
                 ->withStatus(302);
         }
 
-        $this->urlRepository->insert($urlName);
+        $this->urlRepository->create($urlName);
 
         $this->flash->addMessage('success', 'Страница успешно добавлена');
 
