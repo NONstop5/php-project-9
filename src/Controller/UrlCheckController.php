@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
-use Valitron\Validator;
 
 class UrlCheckController extends BaseController
 {
     /**
-     * @throws Throwable
+     * @throws Exception
      */
     public function checkUrlAction(
         ServerRequestInterface $request,
@@ -23,11 +22,25 @@ class UrlCheckController extends BaseController
     ): ResponseInterface {
         $urlId = (int)$args['id'];
 
-        $urlData = $this->urlRepository->getUrlById($urlId);
-        $this->urlCheckRepository->create($urlData['id'], []);
+        $url = $this->urlRepository->getUrlById($urlId);
+
+        if ($url === []) {
+            throw new InvalidArgumentException("Url with id {$urlId} not found");
+        }
+
+        try {
+            $urlResponseData = $this->urlChecker->check($url['name']);
+            $urlCheckData = [
+                'statusCode' => $urlResponseData->getStatusCode(),
+            ];
+
+            $this->urlCheckRepository->create($url['id'], $urlCheckData);
+        } catch (GuzzleException $e) {
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $response
-            ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
+            ->withHeader('Location', sprintf('/urls/%s', $urlId))
             ->withStatus(302);
     }
 }
