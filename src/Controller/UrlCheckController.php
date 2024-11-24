@@ -29,10 +29,8 @@ class UrlCheckController extends BaseController
         }
 
         try {
-            $urlResponseData = $this->urlChecker->check($url['name']);
-            $urlCheckData = [
-                'statusCode' => $urlResponseData->getStatusCode(),
-            ];
+            $urlData = $this->urlChecker->getUrlData($url['name']);
+            $urlCheckData = $this->urlChecker->getUrlCheckData($urlData);
 
             $this->urlCheckRepository->create($url['id'], $urlCheckData);
         } catch (GuzzleException $e) {
