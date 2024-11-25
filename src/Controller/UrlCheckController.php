@@ -37,6 +37,8 @@ class UrlCheckController extends BaseController
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
 
+        $this->flash->addMessage('success', 'Страница успешно проверена');
+
         return $response
             ->withHeader('Location', sprintf('/urls/%s', $urlId))
             ->withStatus(302);
