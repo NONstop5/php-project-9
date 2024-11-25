@@ -46,7 +46,7 @@ class UrlController extends BaseController
             $errors = $validator->errors('url');
             $error = is_array($errors) ? Arr::first($errors) : null;
 
-            return $this->view->render($response, 'index.phtml', compact('error'));
+            return $this->view->render($response, 'index.phtml', compact('error'))->withStatus(422);
         }
 
         $urlData = $this->urlRepository->getUrlByName($urlName);
