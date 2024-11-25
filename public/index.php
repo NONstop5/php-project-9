@@ -32,7 +32,7 @@ $container->set(PhpRenderer::class, fn() => new PhpRenderer(
     __DIR__ . '/../templates/php-view',
     ['flashMessages' => $container->get(Messages::class)]
 ));
-$container->set(Client::class, fn() => new Client(['timeout' => 2.0]));
+$container->set(Client::class, fn() => new Client(['timeout' => 5.0]));
 
 $app = AppFactory::createFromContainer($container);
 
