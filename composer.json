@@ -15,10 +15,6 @@
         }
     ],
     "scripts": {
-        "test:coverage": [
-            "@putenv XDEBUG_MODE=coverage",
-            "phpunit tests --color=always --coverage-clover build/logs/clover.xml"
-        ],
         "test:coverage-text": [
             "@putenv XDEBUG_MODE=coverage",
             "phpunit tests --color=always --coverage-text"
