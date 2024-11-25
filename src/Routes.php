@@ -7,11 +7,15 @@ namespace App;
 use App\Controller\IndexController;
 use App\Controller\UrlCheckController;
 use App\Controller\UrlController;
+use DI\Container;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 class Routes
 {
+    /**
+     * @param App<Container> $app
+     */
     public static function init(App $app): void
     {
         $app->get('/', [IndexController::class, 'indexAction'])->setName('index');

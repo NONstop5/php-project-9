@@ -32,9 +32,9 @@ class UrlChecker
     {
         $content = $urlData['content'];
         $doc = new Document($content);
-        $h1 = optional($doc->first('h1'))->text();
-        $title = optional($doc->first('title'))->text();
-        $description = optional($doc->first('meta[name="description"]'))->getAttribute('content');
+        $h1 = $doc->first('h1')?->text();
+        $title = $doc->first('title')?->text();
+        $description = $doc->first('meta[name="description"]')?->getAttribute('content');
 
         return [
             'statusCode' => $urlData['statusCode'],
