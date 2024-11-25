@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Service;
+namespace App\Tests\Service;
 
 use App\Service\HttpClient;
 use App\Service\UrlChecker;
