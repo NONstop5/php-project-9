@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use DiDom\Document;
+use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
 
 class UrlChecker
@@ -24,6 +25,9 @@ class UrlChecker
         return $this->httpClient->sendGetRequest($url);
     }
 
+    /**
+     * @throws InvalidSelectorException
+     */
     public function getUrlCheckData(array $urlData): array
     {
         $content = $urlData['content'];
