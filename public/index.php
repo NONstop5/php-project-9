@@ -16,7 +16,9 @@ use Slim\Views\PhpRenderer;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->safeLoad();
-$dotenv->required(['APP_ENV', 'DATABASE_URL'])->notEmpty();
+$dotenv->required(['DATABASE_URL'])->notEmpty();
+
+$appEnv = $_ENV['APP_ENV'] ?? 'prod';
 
 $conn = Connection::create($_ENV['DATABASE_URL']);
 (new Migrations())->run($conn);
@@ -52,7 +54,7 @@ $app->addRoutingMiddleware();
 // Добавляем промежуточное ПО обработки ошибок
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
-if ($_ENV['APP_ENV'] === 'prod') {
+if ($appEnv === 'prod') {
     $errorMiddleware->setDefaultErrorHandler($httpErrorHandler);
 }
 
