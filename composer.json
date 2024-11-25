@@ -8,27 +8,12 @@
             "App\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests"
-        }
-    },
     "authors": [
         {
             "name": "NONstop",
             "email": "non_2002@mail.ru"
         }
     ],
-    "scripts": {
-        "test:coverage-text": [
-            "@putenv XDEBUG_MODE=coverage",
-            "phpunit tests --color=always --coverage-text"
-        ],
-        "test:coverage-html": [
-            "@putenv XDEBUG_MODE=coverage",
-            "phpunit tests --color=always --coverage-html build/coverage"
-        ]
-    },
     "require": {
         "php": ">=8.2",
         "slim/slim": "^4.14",
@@ -48,7 +33,6 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.10",
         "symfony/var-dumper": "^7.1",
-        "phpstan/phpstan": "^1.11",
-        "phpunit/phpunit": "^11.4"
+        "phpstan/phpstan": "^1.11"
     }
 }

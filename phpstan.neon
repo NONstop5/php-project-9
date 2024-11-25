@@ -3,7 +3,6 @@ parameters:
     paths:
         - public
         - src
-        - tests
     fileExtensions:
         - php
 

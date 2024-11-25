@@ -9,11 +9,11 @@ validate:
 	composer validate
 
 lint:
-	composer exec -v phpcs public src tests
+	composer exec -v phpcs public src
 	vendor/bin/phpstan analyse
 
 lint-fix:
-	composer exec -v phpcbf -- --standard=PSR12 --colors public src tests
+	composer exec -v phpcbf -- --standard=PSR12 --colors public src
 
 docker-up-d:
 	docker-compose --env-file ./docker/.env up -d
@@ -23,14 +23,3 @@ docker-down:
 
 docker-build:
 	docker-compose --env-file ./docker/.env build
-
-test:
-	composer exec --verbose phpunit tests
-
-test-coverage-text:
-	composer test:coverage-text
-
-test-coverage-html:
-	composer test:coverage-html
-
-.PHONY: tests
