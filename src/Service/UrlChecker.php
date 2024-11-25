@@ -34,9 +34,9 @@ class UrlChecker
 
         return [
             'statusCode' => $urlData['statusCode'],
-            'h1' => $h1 === null ? null : trim($h1),
-            'title' => $title === null ? null : trim($title),
-            'description' => $description === null ? null : trim($description),
+            'h1' => $h1,
+            'title' => $title,
+            'description' => $description,
         ];
     }
 }
