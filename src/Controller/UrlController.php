@@ -60,11 +60,12 @@ class UrlController extends BaseController
         }
 
         $this->urlRepository->create($urlName);
+        $urlData = $this->urlRepository->getUrlByName($urlName);
 
         $this->flash->addMessage('success', 'Страница успешно добавлена');
 
         return $response
-            ->withHeader('Location', '/urls')
+            ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
             ->withStatus(302);
     }
 
