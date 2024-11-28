@@ -33,11 +33,11 @@ class UrlCheckController extends BaseController
             $urlCheckData = $this->urlChecker->getUrlCheckData($urlData);
 
             $this->urlCheckRepository->create($url['id'], $urlCheckData);
-        } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
-        }
 
-        $this->flash->addMessage('success', 'Страница успешно проверена');
+            $this->flash->addMessage('success', 'Страница успешно проверена');
+        } catch (GuzzleException $e) {
+            $this->flash->addMessage('warning', 'Не удалось произвести проверку страницы');
+        }
 
         return $response
             ->withHeader('Location', sprintf('/urls/%s', $urlId))
