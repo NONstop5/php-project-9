@@ -49,7 +49,11 @@ class UrlController extends BaseController
             return $this->view->render($response, 'index.phtml', compact('error'))->withStatus(422);
         }
 
-        $urlData = $this->urlRepository->getUrlByName($urlName);
+        /** @var array{scheme: string, host: string} $parsedUrl */
+        $parsedUrl = parse_url($urlName);
+        $normalizedUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+
+        $urlData = $this->urlRepository->getUrlByName($normalizedUrl);
 
         if (count($urlData) > 0) {
             $this->flash->addMessage('success', 'Страница уже существует');
@@ -59,8 +63,8 @@ class UrlController extends BaseController
                 ->withStatus(302);
         }
 
-        $this->urlRepository->create($urlName);
-        $urlData = $this->urlRepository->getUrlByName($urlName);
+        $this->urlRepository->create($normalizedUrl);
+        $urlData = $this->urlRepository->getUrlByName($normalizedUrl);
 
         $this->flash->addMessage('success', 'Страница успешно добавлена');
 
