@@ -31,7 +31,7 @@ class UrlController extends BaseController
                     'id' => $urlId,
                     'url' => $url['name'],
                     'url_check_date' => $urlCheckInfo['url_check_date'],
-                    'url_check_status_code' => $urlCheckInfo['url_check_date'],
+                    'url_check_status_code' => $urlCheckInfo['url_check_status_code'],
                 ];
             },
             $urls,
