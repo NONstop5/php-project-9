@@ -55,24 +55,9 @@ class UrlRepository
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUrlsCheckInfoList(): array
+    public function getUrls(): array
     {
-        $sql = "
-            select
-                u.id,
-                u.name as url,
-                last_check.created_at as url_check_date,
-                last_check.status_code as url_check_status_code
-            from urls u
-            left join lateral (
-                select url_id, created_at, status_code
-                from url_checks
-                where url_id = u.id
-                order by id desc
-                limit 1
-            ) as last_check on u.id = last_check.url_id
-            order by u.id desc
-        ";
+        $sql = "SELECT * FROM urls ORDER BY id DESC";
 
         $stmt = $this->pdo->query($sql);
 
