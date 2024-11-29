@@ -20,9 +20,25 @@ class UrlController extends BaseController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $urls = $this->urlRepository->getUrlsCheckInfoList();
+        $urls = $this->urlRepository->getUrls();
+        $urlsCheckInfo = $this->urlCheckRepository->getUrlsLastChecks();
 
-        return $this->view->render($response, 'urls.phtml', compact('urls'));
+        $urlsData = array_map(
+            static function (array $url, array $urlCheckInfo) {
+                $urlId = $url['id'];
+
+                return [
+                    'id' => $urlId,
+                    'url' => $url['name'],
+                    'url_check_date' => $urlCheckInfo['url_check_date'],
+                    'url_check_status_code' => $urlCheckInfo['url_check_date'],
+                ];
+            },
+            $urls,
+            $urlsCheckInfo
+        );
+
+        return $this->view->render($response, 'urls.phtml', compact('urlsData'));
     }
 
     /**
@@ -60,7 +76,8 @@ class UrlController extends BaseController
 
             return $response
                 ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
-                ->withStatus(302);
+                ->withStatus(302)
+            ;
         }
 
         $this->urlRepository->create($normalizedUrl);
@@ -70,7 +87,8 @@ class UrlController extends BaseController
 
         return $response
             ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
-            ->withStatus(302);
+            ->withStatus(302)
+        ;
     }
 
     /**
