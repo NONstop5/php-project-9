@@ -14,7 +14,7 @@ services:
         ports:
             - "${POSTGRES_PORT}:5432"
         volumes:
-            - ./docker/pgdata:/var/lib/postgresql
+            - ./docker/pgdata:/var/lib/postgresql/data
 
     app:
         container_name: app
