@@ -16,8 +16,8 @@ services:
         volumes:
             - ./docker/pgdata:/var/lib/postgresql/data
 
-    app:
-        container_name: app
+    web:
+        container_name: web
         restart: unless-stopped
         build:
             context: .
