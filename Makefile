@@ -23,3 +23,6 @@ docker-down:
 
 docker-build:
 	docker-compose --env-file ./docker/.env build
+
+docker-config:
+	docker-compose --env-file ./docker/.env config
