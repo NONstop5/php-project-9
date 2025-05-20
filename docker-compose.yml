@@ -14,7 +14,7 @@ services:
         ports:
             - "${POSTGRES_PORT}:5432"
         volumes:
-            - ./docker/pgdata:/var/lib/postgresql/data
+            - pgdata:/var/lib/postgresql/data
 
     web:
         container_name: web
@@ -31,3 +31,5 @@ services:
             - "/tmp:/tmp"
         depends_on:
             -  db
+volumes:
+    pgdata:
