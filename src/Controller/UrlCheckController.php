@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Routing\RouteContext;
 
 class UrlCheckController extends BaseController
 {
@@ -39,8 +40,11 @@ class UrlCheckController extends BaseController
             $this->flash->addMessage('warning', 'Не удалось произвести проверку страницы');
         }
 
+        $redirectUrl = RouteContext::fromRequest($request)
+                                   ->getRouteParser()
+                                   ->urlFor('urls.show', ['id' => (string)$urlId]);
         return $response
-            ->withHeader('Location', sprintf('/urls/%s', $urlId))
+            ->withHeader('Location', $redirectUrl)
             ->withStatus(302);
     }
 }
