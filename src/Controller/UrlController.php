@@ -7,6 +7,7 @@ namespace App\Controller;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Routing\RouteContext;
 use Throwable;
 use Valitron\Validator;
 
@@ -24,14 +25,14 @@ class UrlController extends BaseController
         $urlsCheckInfo = $this->urlCheckRepository->getUrlsLastChecks();
 
         $urlsData = array_map(
-            static function (array $url, array $urlCheckInfo) {
+            static function (array $url, ?array $urlCheckInfo) {
                 $urlId = $url['id'];
 
                 return [
                     'id' => $urlId,
                     'url' => $url['name'],
-                    'url_check_date' => $urlCheckInfo['url_check_date'],
-                    'url_check_status_code' => $urlCheckInfo['url_check_status_code'],
+                    'url_check_date' => $urlCheckInfo['url_check_date'] ?? '',
+                    'url_check_status_code' => $urlCheckInfo['url_check_status_code'] ?? '',
                 ];
             },
             $urls,
@@ -74,8 +75,12 @@ class UrlController extends BaseController
         if (count($urlData) > 0) {
             $this->flash->addMessage('success', 'Страница уже существует');
 
+            $redirectUrl = RouteContext::fromRequest($request)
+                                       ->getRouteParser()
+                                       ->urlFor('urls.show', ['id' => $urlData['id']]);
+
             return $response
-                ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
+                ->withHeader('Location', $redirectUrl)
                 ->withStatus(302)
             ;
         }
@@ -85,8 +90,11 @@ class UrlController extends BaseController
 
         $this->flash->addMessage('success', 'Страница успешно добавлена');
 
+        $redirectUrl = RouteContext::fromRequest($request)
+                                   ->getRouteParser()
+                                   ->urlFor('urls.show', ['id' => $urlData['id']]);
         return $response
-            ->withHeader('Location', sprintf('/urls/%s', $urlData['id']))
+            ->withHeader('Location', $redirectUrl)
             ->withStatus(302)
         ;
     }
